@@ -73,7 +73,7 @@
             <div class="col-12">
                 <div class="tex-left">
                     <div class="row full-height d-flex align-items-center" style="padding: 10px;">
-                        <img src="{{ asset('img/Prince-head.png') }}" alt="header image" width="100%" height="100px" style="float:left; background-size: cover;">
+                        <img src="{{ asset('img/Prince-head.png') }}" alt="header image" width="100%" height="140px" style="float:left; background-size: cover;">
                     </div>
                 </div>
             </div>

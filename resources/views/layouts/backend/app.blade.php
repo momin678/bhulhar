@@ -757,7 +757,7 @@
                 toastr.warning(`Table element with id '${tableId}' not found`);
                 return;
             }
-
+            tableToPrint.style.setProperty('padding', '10px 15px', 'important');
             const currentDate = new Date().toLocaleDateString();
             const iframe = document.createElement('iframe');
             iframe.style.display = 'none';
@@ -781,6 +781,7 @@
                                     .print-page{padding:10px 15px !important;}
                                     .print-none { display: none !important; }
                                     .print-show { display: block !important; }
+                                    ${tableToPrint}.style{padding: 10px 15px !important;}
 
                                     .header-title { margin-top:15px !imaportant; margin-bottom:15px !important;}
                                     @page { margin: 1cm; }

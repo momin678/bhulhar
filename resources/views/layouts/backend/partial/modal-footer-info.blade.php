@@ -1,5 +1,5 @@
 <div class="img">
-    <img src="{{ asset('img/Prince-logo.png') }}" class="img-fluid" style="position: fixed; top:350px; left:180px; opacity:0.1; width:auto; height:650px; " >
+    <img src="{{ asset('img/Prince-logo.png') }}" class="img-fluid" style="position: fixed; top:350px; left:180px; opacity:0.06; width:auto; height:650px; " >
 </div>
 <style>
     .divFooter {
