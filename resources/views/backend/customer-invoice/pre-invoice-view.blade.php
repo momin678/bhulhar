@@ -1,0 +1,411 @@
+@extends('layouts.backend.app',['invoice_status'=>$invoice->status])
+@section('content')
+@include('layouts.backend.partial.style')
+<style>
+    .table td{
+        border-bottom: none;
+    }
+    .commonSelect2Style span{
+        width: 100% !important;
+    }
+    .select2-container--default.select2-container--open .select2-selection--single .select2-selection__arrow b{
+        display: none;
+    }
+    .select2-container--default .select2-selection--single .select2-selection__arrow b{
+        display: none;
+    }
+</style>
+<div class="app-content content print-hideen">
+    <div class="content-overlay"></div>
+    <div class="content-wrapper">
+        <div class="content-body">
+            @include('clientReport.business-operation.header',['activeMenu' => 'customer_invoice'])
+            <div class="tab-content bg-white">
+                @include('backend.customer-invoice.sub-head',['activeMenu' => 'pending'])
+                <div class="tab-pane active">
+                    <div class="row" id="table-bordered">
+                        <div class="col-12">
+                            <div class="cardStyleChange p-2">
+                                <div class="d-flex">
+                                    <h4 class="flex-grow-1">Invoice Details</h4>
+                                    {{-- <div>
+                                        <button type="button" class="btn btn-primary btn_create formButton mr-1" title="Add" data-toggle="modal" data-target="#newTruckAddModal">
+                                            <div class="d-flex">
+                                                <div class="formSaveIcon">
+                                                    <img src="{{asset('assets/backend/app-assets/icon/add-icon.png')}}" width="25">
+                                                </div>
+                                                <div><span>Add New</span></div>
+                                            </div>
+                                        </button>
+                                    </div> --}}
+                                </div>
+                                <form action="{{ route('save-customer-invoice')}}" method="POST" onsubmit="return confirm('Please, cornfirm?')">
+                                    @csrf
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="">Customer Name</label>
+                                                <input type="text" class="inputFieldHeight form-control" value="{{$invoice->customer?$invoice->customer->pi_name:''}}" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="">Project Name</label>
+                                                <input type="text" class="inputFieldHeight form-control" value="{{$invoice->project?$invoice->project->proj_name:''}}" readonly>
+                                            </div>
+                                        </div>
+                                        {{-- <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="">Cost Center</label>
+                                                <input type="text" class="inputFieldHeight form-control" value="{{$invoice->customer->pi_name}}"readonly>
+                                            </div>
+                                        </div> --}}
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="">Payment Mode </label>
+                                                <input type="text" class="inputFieldHeight form-control" value="{{$invoice->pay_mode}}" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="">Date</label>
+                                                <input type="text" class="inputFieldHeight form-control" name="date" value="{{date('d/m/Y', strtotime($invoice->date))}}" readonly>
+                                            </div>
+                                        </div>
+                                        {{-- <div class="col-sm-3 form-group pay-term">
+                                            <label for="">Payment Terms</label>
+                                            <select name="pay_terms" id="pay_terms" class="common-select2" style="width: 100% !important"
+                                                disabled>
+                                                <option value="">Select...</option>
+                                                @foreach ($terms as $item)
+                                                    <option value="{{ $item->value }}" {{ $item->value==$invoice->pay_terms? 'selected':'' }}>{{ $item->title }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-3 form-group">
+                                            <label for="">Due Date</label>
+                                            <input type="text" class="form-control" name="due_date"
+                                                id="due_date" value="{{ $invoice->due_date }}" readonly>
+                                        </div> --}}
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="">LPO Number</label>
+                                                <input type="text"  class="inputFieldHeight form-control" name="lpo_number" value="{{ $invoice->lpo_number }}" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="">Month</label>
+                                                <input type="month"  class="inputFieldHeight form-control" name="lpo_number" value="{{$invoice->month?date('Y-m', strtotime($invoice->month)):null}}" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="">Pay Term</label>
+                                                <input type="text"  class="inputFieldHeight form-control" name="lpo_number" value="{{ $invoice->pay_term}} {{$invoice->pay_term>0?' Days':''}}" readonly>
+                                            </div>
+                                        </div>
+                                        {{-- <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="">DO Number</label>
+                                                <input type="text"  class="inputFieldHeight form-control" name="lpo_number" value="{{ $invoice->do_no }}" readonly>
+                                            </div>
+                                        </div> --}}
+                                    </div>
+                                    <div class="table-responsive">
+                                        @isset($invoice)
+                                        @php
+                                            $invoice_total= $invoice->total_amount;
+                                        @endphp
+                                        @if ($invoice_total<10000)
+                                        <table class="table mb-0 table-sm table-hover">
+                                            <thead  class="thead-light">
+                                                <tr style="height: 50px;">
+                                                    <th>SL No.</th>
+                                                    <th>Date</th>
+                                                    <th>Truck</th>
+                                                    <th>Material</th>
+                                                    <th>Crusher</th>
+                                                    <th>Destination</th>
+                                                    <th>DO. NO</th>
+                                                    <th>TKT Number</th>
+                                                    <th class="text-right pr-1">QTY</th>
+                                                    <th class="text-right pr-1">Rate</th>
+                                                    <th class="text-right pr-1">Amount</th>
+                                                    <th class="text-right pr-1">VAT Rate</th>
+                                                    <th class="text-right pr-1">Discount</th>
+                                                    <th class="text-right pr-1">VAT Amount</th>
+                                                    <th class="text-right pr-1">Total Amount</th>
+                                                    <th class="text-right pr-1">Toll Fee</th>
+                                                    {{-- <th class="text-right pr-1">Toll Fee Total</th> --}}
+
+                                                </tr>
+                                            </thead>
+                                            <tbody class="table-sm">
+
+                                                @foreach ($invoice->items as $key => $item)
+                                                <tr class="trFontSize t-row">
+                                                    <td>{{$key+1}}</td>
+                                                    <td>{{date('d/m/Y', strtotime($item->date))}}</td>
+                                                    <td>{{$item->truck?$item->truck->vehicle_number:''}}</td>
+                                                    <td>{{$item->record?$item->record->material:''}}</td>
+                                                    <td>{{$item->record?$item->record->crusher:''}}</td>
+                                                    <td>{{$item->description}}</td>
+                                                    <td>{{$item->record?$item->record->serial_no:''}}</td>
+                                                    <td>{{$item->record?$item->record->tkt_number:''}}</td>
+
+                                                    <td class="text-right pr-1">{{$item->qty}}</td>
+                                                    <td class="text-right pr-1">{{$item->rate}}</td>
+                                                    <td class="text-right pr-1">{{$item->amount}}</td>
+                                                    <td class="text-right pr-1">{{$item->vat_rate}}</td>
+                                                    <td class="text-right pr-1">{{$item->discount}}</td>
+                                                    <td class="text-right pr-1">{{$item->vat_amount}}</td>
+                                                    <td class="text-right pr-1">{{$item->total_amount}}</td>
+                                                    <td class="text-right pr-1">{{$item->toll_fee}}</td>
+                                                    {{-- <td class="text-right pr-1">{{number_format($item->toll_fee * $item->qty,2,'.','')}}</td> --}}
+                                                </tr>
+                                                @endforeach
+                                                
+                                                <tr class="trFontSize">
+                                                    <td colspan="15" class="text-right pr-1">Total Quantity: </td>
+                                                    {{-- <td></td> --}}
+                                                    <td class="text-right pr-1">{{ number_format($invoice->items->sum('qty'), 2)}}</td>
+                                                </tr>
+                                                <tr class="trFontSize">
+                                                    <td colspan="15" class="text-right pr-1">Amount: </td>
+                                                    <td class="text-right pr-1">{{ $invoice->items->sum('amount')}}</td>
+                                                    {{-- <td></td> --}}
+                                                </tr>
+                                                <tr class="trFontSize">
+                                                    <td colspan="15" class="text-right pr-1">Discount: </td>
+                                                    <td class="text-right pr-1">{{ $invoice->items->sum('discount')}}</td>
+                                                    {{-- <td></td> --}}
+                                                </tr>
+                                                <tr class="trFontSize">
+                                                    <td colspan="15" class="text-right pr-1">Total VAT: </td>
+                                                    <td class="text-right pr-1">{{ $invoice->items->sum('vat_amount')}}</td>
+                                                    {{-- <td></td> --}}
+                                                </tr>
+                                                <tr class="trFontSize">
+                                                    <td colspan="15" class="text-right pr-1">Total Toll Fee: </td>
+                                                    <td class="text-right pr-1">{{  $invoice->items->sum('toll_fee')}}</td>
+                                                </tr>
+                                                <tr class="trFontSize">
+                                                    <td colspan="15" class="text-right pr-1">Total Amount: </td>
+                                                    <td class="text-right pr-1">{{ $t_amount =  $invoice->items->sum('amount')+$invoice->items->sum('vat_amount')+$invoice->items->sum('toll_fee')-$invoice->items->sum('discount')}}</td>
+                                                    {{-- <td></td> --}}
+                                                </tr>
+                                                <tr class="trFontSize">
+                                                    <td colspan="15" class="text-right pr-1">Payment Applied: </td>
+                                                    <td class="text-right pr-1">{{ $invoice->paid_amount}}</td>
+                                                    {{-- <td></td> --}}
+                                                </tr>
+                                                <tr class="trFontSize">
+                                                    <td colspan="15" class="text-right pr-1">Balance Due: </td>
+                                                    <td class="text-right pr-1">{{ $t_amount - $invoice->paid_amount}}</td>
+                                                    {{-- <td></td> --}}
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+                                        @else
+                                        <table class="table mb-0 table-sm table-hover">
+                                            <thead  class="thead-light">
+                                                <tr style="height: 50px;">
+                                                    <th>SL No.</th>
+                                                    <th>Date</th>
+                                                    <th>Truck</th>
+                                                    <th>Material</th>
+                                                    <th>Crusher/Site</th>
+                                                    <th>Destination</th>
+                                                    <th>DO.NO</th>
+                                                    <th>TKT Number</th>
+                                                    <th class="text-right pr-1">QTY</th>
+                                                    <th class="text-right pr-1">Rate</th>
+                                                    <th class="text-right pr-1">Amount</th>
+                                                    <th class="text-right pr-1">VAT Rate</th>
+                                                    <th class="text-right pr-1">Discount</th>
+                                                    <th class="text-right pr-1">VAT Amount</th>
+                                                    <th class="text-right pr-1">Total Amount</th>
+                                                    <th class="text-right pr-1">Toll Fee</th>
+                                                    {{-- <th class="text-right pr-1">Toll Fee Total</th> --}}
+
+                                                </tr>
+                                            </thead>
+                                            <tbody class="table-sm">
+
+                                                @foreach ($invoice->items as $key => $item)
+
+                                                <tr class="trFontSize t-row">
+                                                    <td>{{$key+1}}</td>
+                                                    <td>{{date('d/m/Y', strtotime($item->date))}}</td>
+                                                    <td>{{$item->truck?$item->truck->vehicle_number:''}}</td>
+                                                    <td>{{$item->record?$item->record->material:''}}</td>
+                                                    <td>{{$item->record?$item->record->crusher:''}}</td>
+                                                    <td>{{$item->description}}</td>
+                                                    <td>{{$item->record?$item->record->serial_no:''}}</td>
+                                                    <td>{{$item->record?$item->record->tkt_number:''}}</td>
+                                                    <td class="text-right pr-1">{{$item->qty}}</td>
+                                                    <td class="text-right pr-1">{{$item->rate}}</td>
+                                                    <td class="text-right pr-1">{{$item->amount}}</td>
+                                                    <td class="text-right pr-1">{{$item->vat_rate}}</td>
+                                                    <td class="text-right pr-1">{{$item->discount}}</td>
+                                                    <td class="text-right pr-1">{{$item->vat_amount}}</td>
+                                                    <td class="text-right pr-1">{{$item->total_amount}}</td>
+                                                    <td class="text-right pr-1">{{$item->toll_fee}}</td>
+                                                    {{-- <td class="text-right pr-1">{{number_format($item->toll_fee * $item->qty,2,'.','')}}</td> --}}
+                                                </tr>
+                                                @endforeach
+                                                
+                                                <tr class="trFontSize">
+                                                    <td colspan="15" class="text-right pr-1">Total Quantity: </td>
+                                                    {{-- <td></td> --}}
+                                                    <td class="text-right pr-1">{{ number_format($invoice->items->sum('qty'), 2)}}</td>
+                                                </tr>
+                                                <tr class="trFontSize">
+                                                    <td colspan="15" class="text-right pr-1">Amount: </td>
+                                                    <td class="text-right pr-1">{{ $invoice->items->sum('amount')}}</td>
+                                                    {{-- <td></td> --}}
+                                                </tr>
+                                                <tr class="trFontSize">
+                                                    <td colspan="15" class="text-right pr-1">Discount: </td>
+                                                    <td class="text-right pr-1">{{ $invoice->items->sum('discount')}}</td>
+                                                    {{-- <td></td> --}}
+                                                </tr>
+                                                <tr class="trFontSize">
+                                                    <td colspan="15" class="text-right pr-1">Total VAT: </td>
+                                                    <td class="text-right pr-1">{{ $invoice->items->sum('vat_amount')}}</td>
+                                                    {{-- <td></td> --}}
+                                                </tr>
+                                                <tr class="trFontSize">
+                                                    <td colspan="15" class="text-right pr-1">Total Toll Fee: </td>
+                                                    <td class="text-right pr-1">{{  $invoice->items->sum('toll_fee')}}</td>
+                                                </tr>
+                                                <tr class="trFontSize">
+                                                    <td colspan="15" class="text-right pr-1">Total Amount: </td>
+                                                    <td class="text-right pr-1">{{ $t_amount =  $invoice->items->sum('amount')+$invoice->items->sum('vat_amount')+$invoice->items->sum('toll_fee')-$invoice->items->sum('discount')}}</td>
+                                                    {{-- <td></td> --}}
+                                                </tr>
+                                                <tr class="trFontSize">
+                                                    <td colspan="15" class="text-right pr-1">Payment Applied: </td>
+                                                    <td class="text-right pr-1">{{ $invoice->paid_amount}}</td>
+                                                    {{-- <td></td> --}}
+                                                </tr>
+                                                <tr class="trFontSize">
+                                                    <td colspan="15" class="text-right pr-1">Balance Due: </td>
+                                                    <td class="text-right pr-1">{{ $t_amount - $invoice->paid_amount}}</td>
+                                                    {{-- <td></td> --}}
+                                                </tr>
+
+
+                                            </tbody>
+                                        </table>
+                                        @endif
+
+                                        @endisset
+
+
+                                    </div>
+                                </form>
+
+                            </div>
+                            <p class="text-center">
+                                @if (Session::get('status') && Session::get('status')=='Authorize')
+                                    <a href="{{ route('invoice-athurization-list') }}" class="btn btn-primary">Back</a>
+                                @elseif(Session::get('status') && Session::get('status')=='Approve')
+                                    <a href="{{ route('invoice-approval-list') }}" class="btn btn-primary">Back</a>
+                                @else
+                                    <a href="{{ url()->previous() }}" class="btn btn-primary">Back</a>
+                                @endif
+                                <a href="{{ route('draft-invoice-print', $invoice->id)}}" target="_blank" class="btn btn-secondary">Print</a>
+                                @if ( $invoice->status=="Decline")
+                                <p class="text-center"> <a href="#" class="btn btn-secondary" style="pointer-events: none" onclick="return confirm('Please, Confirm?')">{{ $invoice->status=="Decline"?"Declined":"Declined" }}</a></p>
+
+                                @else
+                                    @if (Auth::user()->hasPermission('app.invoice.invoice_authorize') && Auth::user()->hasPermission('app.invoice.invoice_approval'))
+                                    <a href="{{ route('authorize-payment-voucher', ['type' => 'customer-invoice', 'id' => $invoice->id]) }}" class="btn btn-info" onclick="return confirm('Please, Confirm?')">{{ $invoice->status=="Authorize"?"Authorize":"Approve" }}</a>
+                                    <a href="{{ route('decline-invoice',$invoice->id)}}" class="btn btn-danger" onclick="return confirm('Please, Confirm?')">Decline</a>
+
+                                    @elseif (Auth::user()->hasPermission('app.invoice.invoice_authorize'))
+                                        @if ($invoice->status=="Authorize")
+                                        <p class="text-center"> <a href="{{ route('authorize-payment-voucher', ['type' => 'customer-invoice', 'id' => $invoice->id]) }}" class="btn btn-info" onclick="return confirm('Please, Confirm?')">{{ $invoice->status=="Authorize"?"Authorize":"Approve" }}</a></p>
+                                        <p class="text-center"> <a href="{{ route('decline-invoice',$invoice->id)}}" class="btn btn-danger" onclick="return confirm('Please, Confirm?')">Decline</a></p>
+
+                                        @else
+                                        <p class="text-center"> <a href="#" class="btn btn-secondary" style="pointer-events: none" onclick="return confirm('Please, Confirm?')">{{ $invoice->status=="Authorize"?"Authorized":"Authorized" }}</a></p>
+
+                                        @endif
+                                        @elseif (Auth::user()->hasPermission('app.invoice.invoice_approval'))
+                                        @if ($invoice->status=="Approve")
+                                        <p class="text-center"> <a href="{{ route('authorize-payment-voucher', ['type' => 'customer-invoice', 'id' => $invoice->id]) }}" class="btn btn-info" onclick="return confirm('Please, Confirm?')">{{ $invoice->status=="Authorize"?"Authorize":"Approve" }}</a></p>
+                                        <a href="{{ route('decline-invoice',$invoice->id)}}" class="btn btn-danger" onclick="return confirm('Please, Confirm?')">Decline</a>
+
+                                        @else
+                                        <p class="text-center"> <a href="#" class="btn btn-secondary" style="pointer-events: none" onclick="return confirm('Please, Confirm?')">{{ $invoice->status=="Approve"?"Approved":"Approved" }}</a></p>
+
+                                        @endif
+                                @endif
+                              @endif
+                            </p>
+                            <div class="d-flex justify-content-end pr-2">
+                                <p>created by: {{$invoice->created_by_user?$invoice->created_by_user->name:''}}</p>
+                                @if ($invoice->status=="Approve" && $invoice->authorized_by)
+                                <p>, Authorized by: {{$invoice->authorized_by_user?$invoice->authorized_by_user->name:''}}</p>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@endsection
+@push('js')
+<script>
+    // $(document).on("click", ".truckInfoEdit", function(e){
+    //     e.preventDefault();
+    //     $("#truckInfoEditModal").modal('show');
+    // });
+
+        $('.r-rate').keyup(function(){
+            var qty= ($(this).closest('.t-row').find('.r-weight').val());
+            var v_rate= ($(this).closest('.t-row').find('.v-rate').val());
+            var rate= ($(this).val());
+            var amount= qty*rate;
+            $(this).closest('.t-row').find('.r-amount').val(amount);
+            total_vat(v_rate);
+
+        });
+
+        function total_vat(vat_rate){
+            var total_amount=0;
+                $('.r-amount').each(function() {
+                    var this_amount= $(this).val();
+                    this_amount = (this_amount === '') ? 0 : this_amount;
+                    this_amount= parseInt(this_amount);
+                    total_amount = total_amount+this_amount;
+                });
+                var total_vat= total_amount * vat_rate / 100;
+
+                $('#total_vat').val(total_vat);
+                $('#total_amount').val(total_vat+total_amount);
+        }
+
+        $('#payment_amount').keyup(function(){
+            var payment_amount= $(this).val();
+            var total_amount= $('#total_amount').val();
+            $('#due_amount').val(total_amount-payment_amount);
+        });
+
+
+
+
+
+
+</script>
+@endpush
