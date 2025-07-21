@@ -59,6 +59,12 @@
         tr {
             cursor: pointer;
         }
+
+        @media print {
+            #purchase-widgets-Statistics1{
+                padding: 10px 15px !important;
+            }
+        }
     </style>
     <div class="app-content content print-hideen">
         <div class="content-overlay"></div>
@@ -84,7 +90,7 @@
                                                 <thead class="thead">
                                                     <tr>
                                                         <th>Date</th>
-                                                        <th>Party Name</th>
+                                                        <th class="text-left pl-1">Party Name</th>
                                                         <th>Invoice No</th>
                                                         <th> Amount </th>
                                                         <th> VAT </th>
@@ -95,7 +101,7 @@
                                                     @foreach ($sales as $item)
                                                         <tr class="sale-view" data-url="{{route('sale.approve_show',$item->id) }}" style="text-align:center;">
                                                             <td>{{ date('d/m/Y', strtotime($item->date)) }}</td>
-                                                            <td>{{ optional($item->party)->pi_name }}</td>
+                                                            <td class="text-left pl-1">{{ optional($item->party)->pi_name }}</td>
                                                             <td>{{ $item->sale_no }}</td>
                                                             <td>{{ $item->amount }}</td>
                                                             <td>{{ $item->vat_amount }}</td>

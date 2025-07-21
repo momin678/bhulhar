@@ -66,14 +66,14 @@
     $invoice_arabic= \App\Setting::where('config_name', 'invoice_arabic')->first();
     $invoice_log= \App\Setting::where('config_name', 'invoice_img')->first();
 @endphp
+
 <section id="widgets-Statistics border-bottom print-info conpany-header mb-3" style="margin-bottom: 20px !important">
     <div class="header-block " style="padding: 2px 15px;">
         <div class="row">
             <div class="col-12">
                 <div class="tex-left">
-                    <div class="row full-height d-flex align-items-center">
-                        <img src="{{ asset('img/Prince-head.png') }}" alt="header image" width="100%" height="100px" style="float:left; background-size: cover; ">
-
+                    <div class="row full-height d-flex align-items-center" style="padding: 10px;">
+                        <img src="{{ asset('img/Prince-head.png') }}" alt="header image" width="100%" height="100px" style="float:left; background-size: cover;">
                     </div>
                 </div>
             </div>

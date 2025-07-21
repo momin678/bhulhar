@@ -778,6 +778,7 @@
                             <title>lavish_perfume_print_report_${currentDate}</title>
                             <style>
                                 @media print {
+                                    .print-page{padding:10px 15px !important;}
                                     .print-none { display: none !important; }
                                     .print-show { display: block !important; }
 
