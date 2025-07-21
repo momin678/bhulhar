@@ -3,19 +3,24 @@
     html, body {
         height:100%;
     }
-    thead {
-    background: #34465b;
-    color: #fff !important;
-    height: 30px;
-}
 
-@media print{
-    .table tr th,
-    .table tr td{
-        color: #000000 !important;
-        font-weight:500 !important;
+    thead {
+        background: #34465b;
+        color: #fff !important;
+        height: 30px;
     }
-}
+
+    @media print{
+        .table tr th,
+        .table tr td{
+            color: #000000 !important;
+            font-weight:500 !important;
+        }
+
+        #purchase-widgets-Statistics1{
+            padding: 10px 15px !important;
+        }
+    }
 
 </style>
 <section class="print-hideen border-bottom" style="background: #364a60;">
@@ -43,7 +48,7 @@
     @include('layouts.backend.partial.modal-header-info')
 </div>
 
-<section id="purchase-widgets-Statistics1">
+<section id="purchase-widgets-Statistics1" class="print-page">
     <div class="row">
 
         <div class="col-md-12 text-center invoice-view-wrapper student_profle-print my-1">
@@ -95,6 +100,7 @@
                 </div>
             </div>
         </div>
+
         <div class="col-md-12">
             <div class="border-botton">
                 <div class="mx-2">

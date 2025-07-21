@@ -32,9 +32,11 @@ Route::get('suspend', function(Request $request){
 });
 
 Route::get('/get-expiry-date', function () {
+
     $configurations = AppConfig::whereIn('config_name', ['client_id', 'next_time_interval'])->get()->pluck('config_value', 'config_name');
     $client_id = $configurations['client_id'];
     $expiryCheck_interval = $configurations['next_time_interval'];
+
     return response()->json([
         'client_id' => $client_id,
         'expiryCheck_interval' => $expiryCheck_interval,

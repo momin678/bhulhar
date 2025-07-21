@@ -29,19 +29,21 @@
     <div class="d-flex flex-row-reverse">
 
         <div class="pr-1" style="padding-top: 5px;padding-right: 24px !important;"><a href="#" class="close btn-icon btn btn-danger" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class='bx bx-x'></i></span></a></div>
-        <div class="pr-1" style="padding-top: 5px;padding-right: 3px !important;"><a href="#" onclick="window.print();" class="btn btn-icon btn-success"><i class="bx bx-printer"></i></a></div>
+        <div class="pr-1" style="padding-top: 5px;padding-right: 3px !important;"><a href="#" onclick="handlePrintClick('purchase-preview')" class="btn btn-icon btn-success"><i class="bx bx-printer"></i></a></div>
         <div class="pr-1 w-100 pl-2">
             <h4 style="font-family:Cambria;font-size: 2rem;color:white;">Purchase/Expense</h4>
         </div>
         {{-- <div class="py-1 pr-1"><a href="#" onclick="window.print();" class="btn btn-icon btn-light"><i class='bx bxs-virus'></i></a></div> --}}
     </div>
 </section>
-<div class="receipt-voucher-hearder invoice-view-wrapper" style="margin: 50px 20px; border-radius: 20px;">
+
+<div class="receipt-voucher-hearder invoice-view-wrapper" style="margin: 10px 20px; border-radius: 20px;">
     @include('layouts.backend.partial.modal-header-info')
 </div>
-<section id="widgets-Statistics">
 
-    <div class="row">
+<section class="">
+
+    <div id="purchase-preview" class="row print-page">
         <div class="col-md-12 text-center invoice-view-wrapper student_profle-print py-2">
             <h2>Purchase - Bill</h2>
         </div>
@@ -151,8 +153,8 @@
         </div>
     </div>
 
-    <section>
-        <div class="col-md-12 print-hideen ml-2">
+    <section class="print-hideen">
+        <div class="col-md-12 ml-2">
             <form id="document-upload" action="{{route('document.uoload',$purchase_exp->id)}}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="d-flex align-items-center">
@@ -185,12 +187,6 @@
         </div>
 
     </section>
-
-
-    <div class="divFooter mb-1 ml-1 footer-margin">
-        Business Software Solutions by
-        <span style="color: #0005" class="spanStyle"><img class="img-fluid" src="{{ asset('img/zisprink.png')}}" alt="" width="70"></span>
-    </div>
 </section>
 
 <div class="img receipt-bg invoice-view-wrapper">

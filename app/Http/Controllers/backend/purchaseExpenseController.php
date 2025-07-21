@@ -419,7 +419,6 @@ class purchaseExpenseController extends Controller
 
     public function bill_list(Request $request)
     {
-
         $expenses_list = FacadesDB::table('purchase_expenses')
         ->join('party_infos', 'party_infos.id', '=', 'purchase_expenses.client_id')
         ->where('purchase_expenses.invoice_type','=','bill');
@@ -500,6 +499,7 @@ class purchaseExpenseController extends Controller
         $purchase_exp = PurchaseExpense::find($request->id);
         return view('backend.purchase-expense.preview', compact('purchase_exp'));
     }
+
     public function auth_purch_exp_modal(Request $request)
     {
         $purchase_exp = PurchaseExpenseTemp::find($request->id);

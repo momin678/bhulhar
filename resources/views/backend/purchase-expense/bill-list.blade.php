@@ -59,6 +59,47 @@
         tr {
             cursor: pointer;
         }
+
+        @media print {
+            .print-hideen {
+                display: none;
+            }
+
+            .print-none {
+                display: none;
+            }
+
+           body{
+                margin: 0;
+                padding: 0;
+                background: #fff;
+                color: #331133;
+            }
+
+            .table-bordered th,
+            .table-bordered td {
+                border: 1px solid #000 !important;
+            }
+
+            .thead th {
+                background-color: #34465b !important;
+                color: #fff !important;
+            }
+
+            .thead th,
+            .table-bordered td {
+                font-size: 12px !important;
+            }
+
+            .formButton {
+                display: none;
+            }
+
+            .formSaveIcon {
+                display: none;
+            }
+           }
+        }
     </style>
     <div class="app-content content print-hideen">
         <div class="content-overlay"></div>
@@ -122,6 +163,7 @@
                                                             <label for="">From Date</label>
                                                             <input type="text" autocomplete="off" class="form-control inputFieldHeight datepicker" name="from_date" placeholder="From Date">
                                                         </div>
+
                                                         <div class="col-md-6 col-right-padding col-left-padding">
                                                             <label for="">To Date</label>
                                                             <input type="text" autocomplete="off" class="form-control inputFieldHeight datepicker" name="to_date" placeholder="To Date">
@@ -141,7 +183,7 @@
                                                 </form>
                                             </div>
 
-                                            <div class="table-responsive mb-2" id="Group-wise-Bill-List">
+                                            <div class="table-responsive mb-2 print-page" id="Group-wise-Bill-List">
                                                 <div class="row">
                                                     <div class="col-md-9">
                                                         <h3 class="text-center h4  header-title"> Date and Supplier Group-wise Bill List</h3>
