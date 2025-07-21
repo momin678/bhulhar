@@ -1321,6 +1321,7 @@ Route::get('toll-fee-report', 'backend\TollFeesPaymentController@toll_fee_report
     Route::get('/get-footer', function () {
         return view('layouts.backend.partial.modal-footer-info')->render();
     });
+
     Route::prefix('/business')->group(function(){
       Route::get('/business-report', 'ClientReportController@business')->name('business-report');
 

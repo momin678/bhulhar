@@ -17,6 +17,7 @@
         padding-left:5px;
         padding-bottom:5px;
     }
+
     @media only screen and (max-width: 1500px) {
         .custome-project span{
             max-width: 140px;
@@ -24,26 +25,27 @@
     }
 
     thead {
-    background: #34465b;
-    color: #fff !important;
-}
-th{
-    color: #fff !important;
-    font-size: 11px !important;
-    height: 25px !important;
-    text-align: center !important;
-}
-td
-{
-    font-size: 12px !important;
-    height: 25px !important;
-    text-align: center;
-}
+        background: #34465b;
+        color: #fff !important;
+    }
+    th{
+        color: #fff !important;
+        font-size: 11px !important;
+        height: 25px !important;
+        text-align: center;
+    }
+    td
+    {
+        font-size: 12px !important;
+        height: 25px !important;
+        text-align: center;
+    }
 
-.table-sm th, .table-sm td {
-    padding: 0rem;
-}
-tr:nth-child(even) {background-color: #f2f2f2;}
+    .table-sm th, .table-sm td {
+        padding: 0rem;
+    }
+
+    tr:nth-child(even) {background-color: #f2f2f2;}
 
 </style>
 <div class="app-content content print-hideen">
@@ -102,13 +104,13 @@ tr:nth-child(even) {background-color: #f2f2f2;}
                                             <table class="table table-bordered table-sm">
                                                 <thead class="thead">
                                                     <tr >
-                                                        <th  style="width: 7%">SL No</th>
-                                                        <th  style="width: 12%">Date</th>
-                                                        <th  style="width: 12%">Receipt No</th>
-                                                        <th style="width: 25%">Party Name</th>
-                                                        <th  style="width: 24%">Narration</th>
-                                                        <th  style="width: 10%"  >Amount</th>
-                                                        <th style="width: 10%">Pay Mode</th>
+                                                        <th  style="width: 7%"> SL No </th>
+                                                        <th  style="width: 12%"> Date </th>
+                                                        <th  style="width: 12%"> Receipt No </th>
+                                                        <th  style="width: 25%;"> Party Name</th>
+                                                        <th  style="width: 24%;"> Narration</th>
+                                                        <th  style="width: 10%"> Amount </th>
+                                                        <th style="width: 10%"> Pay Mode </th>
                                                     </tr>
                                                 </thead>
                                                 <tbody id="receipt-body">
@@ -117,12 +119,11 @@ tr:nth-child(even) {background-color: #f2f2f2;}
                                                         <td>{{++$i}}</td>
                                                         <td>{{date('d/m/Y',strtotime($item->date))}}</td>
                                                         <td>{{$item->receipt_no}}</td>
-                                                        <td>{{$item->name==null?  $item->party?$item->party->pi_name:'' : $item->name}}</td>
-                                                        <td>{{$item->narration}}</td>
+                                                        <td >{{$item->name==null?  $item->party?$item->party->pi_name:'' : $item->name}}</td>
+                                                        <td >{{$item->narration}}</td>
                                                         <td >{{$item->total_amount}}</td>
                                                         <td >{{$item->pay_mode}}</td>
                                                     </tr>
-
                                                     @endforeach
                                                 </tbody>
 
