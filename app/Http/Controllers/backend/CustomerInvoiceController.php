@@ -719,7 +719,8 @@ class CustomerInvoiceController extends Controller
         $journal->journal_no        = $journal_no;
         $journal->date              = $tax_invoice->date;
         $journal->pay_mode          = $tax_invoice->pay_mode;
-        $journal->invoice_no        = $tax_invoice->invoice_no;
+        $journal->invoice_no        = $tax_invoice->invoice_no?$tax_invoice->invoice_no:$tax_invoice->sale_no;
+        $journal->invoice_id        = $tax_invoice->id;
         $journal->cost_center_id    = $tax_invoice->cost_center_id;
         $journal->party_info_id     = $tax_invoice->customer_id;
         $journal->account_head_id   = 123;

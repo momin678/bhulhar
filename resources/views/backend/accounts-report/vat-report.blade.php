@@ -182,8 +182,8 @@
                                                 <th>SL. NO</th>
                                                 <th>DATE</th>
                                                 <th>NARRATION</th>
-                                                <th>INPUT VAT</th>
                                                 <th>OUTPUT VAT</th>
+                                                <th>INPUT VAT</th>
                                                 <th>BALANCE</th>
                                             </tr>
                                             @php
